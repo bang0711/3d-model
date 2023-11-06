@@ -1,113 +1,131 @@
-import Image from 'next/image'
+"use client";
+import * as THREE from "three";
+import React, { Suspense, useEffect, useRef } from "react";
+import { useGLTF, useAnimations, OrbitControls } from "@react-three/drei";
+import { GLTF } from "three-stdlib";
+import { Canvas } from "@react-three/fiber";
+type Props = {};
+type GLTFResult = GLTF & {
+  nodes: {
+    ["default001fg_15_-_Default_0"]: THREE.Mesh;
+    ["Plane001_Material_#13_0"]: THREE.Mesh;
+    Object_7: THREE.SkinnedMesh;
+    Object_8: THREE.SkinnedMesh;
+    _rootJoint: THREE.Bone;
+  };
+  materials: {
+    ["15_-_Default"]: THREE.MeshStandardMaterial;
+    Material_13: THREE.MeshStandardMaterial;
+    Material_15: THREE.MeshStandardMaterial;
+    Material_16: THREE.MeshStandardMaterial;
+  };
+};
+export function Model(props: JSX.IntrinsicElements["group"]) {
+  const group = useRef<THREE.Group>();
+  const { nodes, materials, animations } = useGLTF(
+    "/models/phoenix.glb"
+  ) as GLTFResult;
+  const { actions } = useAnimations(animations, group);
+  useEffect(() => {
+    actions["Take 001"]?.reset().play();
+  });
 
-export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    // @ts-expect-error
+    <group ref={group} {...props} dispose={null}>
+      <group name="Sketchfab_Scene">
+        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
+          <group
+            name="7e80fc465c1c41fc9f1895b4afce70a6fbx"
+            rotation={[Math.PI / 2, 0, 0]}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+            <group name="Object_2">
+              <group name="RootNode">
+                <group name="Object_4">
+                  <primitive object={nodes._rootJoint} />
+                  <skinnedMesh
+                    name="Object_7"
+                    geometry={nodes.Object_7.geometry}
+                    material={materials.Material_15}
+                    skeleton={nodes.Object_7.skeleton}
+                  />
+                  <skinnedMesh
+                    name="Object_8"
+                    geometry={nodes.Object_8.geometry}
+                    material={materials.Material_16}
+                    skeleton={nodes.Object_8.skeleton}
+                  />
+                  <group
+                    name="Object_6"
+                    position={[0, 0.994, 0]}
+                    rotation={[-Math.PI / 2, 0, 0]}
+                  />
+                  <group
+                    name="PhysCamera001"
+                    position={[9.513, 1.183, 8.693]}
+                    rotation={[-0.028, 0.805, 0.02]}
+                  />
+                  <group
+                    name="PhysCamera001Target"
+                    position={[0.545, 0.94, 0.08]}
+                    rotation={[-3.088, -0.541, -3.114]}
+                  />
+                  <group
+                    name="phoenix"
+                    position={[0, 0.994, 0]}
+                    rotation={[-Math.PI / 2, 0, 0]}
+                  />
+                  <group
+                    name="Character001"
+                    rotation={[Math.PI / 2, 1.571, 0]}
+                  />
+                  <group
+                    name="CATRigHub001Gizmo"
+                    position={[0, 0.695, 0.052]}
+                    rotation={[2.168, Math.PI / 2, 0]}
+                  />
+                  <group
+                    name="CATRigHub002Gizmo"
+                    position={[0, 0.878, 0.542]}
+                    rotation={[2.641, Math.PI / 2, 0]}
+                  />
+                  <group
+                    name="VRaySun001"
+                    position={[11.444, 17.792, 15.299]}
+                    rotation={[-0.981, 0.51, 0.629]}
+                  />
+                  <group
+                    name="VRaySun001Target"
+                    position={[-0.521, 0, 3.383]}
+                    rotation={[-Math.PI / 2, 0, 0]}
+                  />
+                </group>
+              </group>
+            </group>
+          </group>
+        </group>
+      </group>
+    </group>
+  );
 }
+
+function HomePage({}: Props) {
+  return (
+    <div className="flex items-center justify-center h-screen w-full">
+      <Canvas camera={{ position: [-7, 0, 0] }}>
+        <ambientLight />
+        <Suspense>
+          <OrbitControls
+            enableZoom={true}
+            enablePan={true}
+            maxPolarAngle={Math.PI}
+            minPolarAngle={0} // Allow rotation above and below the horizon
+          />
+          <Model />
+        </Suspense>
+      </Canvas>
+    </div>
+  );
+}
+
+export default HomePage;
