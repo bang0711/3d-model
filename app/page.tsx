@@ -20,7 +20,7 @@ type GLTFResult = GLTF & {
     Material_16: THREE.MeshStandardMaterial;
   };
 };
-export function Model(props: JSX.IntrinsicElements["group"]) {
+function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>();
   const { nodes, materials, animations } = useGLTF(
     "/models/phoenix.glb"
